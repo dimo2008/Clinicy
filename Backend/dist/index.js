@@ -1,5 +1,9 @@
 import { runExamples } from "./Examples.js";
 // Call the main examples function
-console.log("Hello World");
-// runExamples().catch(console.error);
+//console.log("Hello World2");
+//runExamples().catch(console.error);
+const myFunc = (num) => {
+    return num * num;
+};
+export default myFunc;
 //# sourceMappingURL=index.js.map

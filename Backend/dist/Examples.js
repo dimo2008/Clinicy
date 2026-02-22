@@ -7,7 +7,7 @@
 // ============================================================================
 function basicTypes() {
     const name = "Ahmed";
-    const age = 25;
+    const age = 33;
     const isStudent = true;
     const anything = "this can be anything";
     console.log(`Name: ${name}, Age: ${age}, Student: ${isStudent}, anything: ${anything}`);
@@ -46,13 +46,18 @@ function updateStatus(status) {
 function getFirstElement(array) {
     return array[0];
 }
+function LogUserById(user) {
+    console.log(`User ID: ${user.id}`);
+}
 function swapPair(pair) {
     return [pair[1], pair[0]];
 }
 class Box {
     value;
-    constructor(value) {
+    color;
+    constructor(value, color) {
         this.value = value;
+        this.color = color;
     }
     getValue() {
         return this.value;
@@ -222,7 +227,7 @@ export async function runExamples() {
     const user = {
         id: 1,
         name: "Alice",
-        email: "alice@example.com",
+        email: "alice@example.com"
     };
     handleUser(user);
     const admin = {
@@ -244,7 +249,7 @@ export async function runExamples() {
     console.log("First element:", firstNum);
     const swapped = swapPair([5, "ten"]);
     console.log("Swapped pair:", swapped);
-    const box = new Box(42);
+    const box = new Box(42, Color.Green);
     console.log("Box value:", box.getValue());
     // Enums
     console.log("\n--- Enums ---");
