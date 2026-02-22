@@ -9,4 +9,7 @@ const myFunc = (num: number): number => {
   return num * num;
 };
 
-export default myFunc;
+const fullName = (firstName: string, lastName: string): string => {
+  return `${firstName} ${lastName}`;
+};
+export { myFunc, fullName };

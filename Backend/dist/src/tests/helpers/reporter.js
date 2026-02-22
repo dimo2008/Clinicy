@@ -1,11 +1,9 @@
-import {DisplayProcessor, SpecReporter, StacktraceOption} from "jasmine-spec-reporter";
-
+import { DisplayProcessor, SpecReporter, StacktraceOption } from "jasmine-spec-reporter";
 class CustomProcessor extends DisplayProcessor {
-    public displayJasmineStarted(info: jasmine.SuiteInfo, log: string): string {
+    displayJasmineStarted(info, log) {
         return `${log}`;
     }
 }
-
 jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(new SpecReporter({
     spec: {
@@ -13,3 +11,4 @@ jasmine.getEnv().addReporter(new SpecReporter({
     },
     customProcessors: [CustomProcessor],
 }));
+//# sourceMappingURL=reporter.js.map
