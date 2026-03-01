@@ -9,7 +9,8 @@
     "dev": "tsx src/index.ts",
     "debug": "node --inspect-brk=9229 --loader tsx ./src/index.ts",
     "jasmine": "jasmine",
-    "test": "tsc -p tsconfig.spec.json && npm run jasmine"
+    "test": "tsc -p tsconfig.spec.json && npm run jasmine",
+    "startNodemon": "nodemon"
   },
   "keywords": [],
   "author": "",

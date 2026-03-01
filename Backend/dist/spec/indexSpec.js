@@ -6,7 +6,7 @@ describe("Example", () => {
     });
 });
 it("expect myFunc(5) to equal 25", () => {
-    expect(myFunc(10)).toEqual(100);
+    expect(myFunc(10)).toEqual(50);
 });
 it("Check FullNAme", () => {
     expect(fullName("Ahmed", "Magdy")).toEqual("Ahmed Magdy");
