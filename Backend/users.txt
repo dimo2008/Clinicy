@@ -1,6 +1,0 @@
-[
-  {
-    "username": "ahmed",
-    "password": "$2b$10$kM2UVzkwa0N7D2PlCQ9r2OpBxMSHvOmpPsIU4FGY6QFfXy41hfpMO"
-  }
-]

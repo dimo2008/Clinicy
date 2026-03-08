@@ -1,0 +1,6 @@
+[
+  {
+    "username": "aaa",
+    "password": "$2b$10$.6fXZZ30FVWxBVM7.6zkoObagPpjqRK1445a5AHldQM5TX.zJv9j2"
+  }
+]

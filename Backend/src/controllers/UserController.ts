@@ -1,7 +1,6 @@
 import express, { type Request, type Response, Router, type NextFunction } from "express";
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import { promises as fsPromises } from 'fs';
+import { UserService } from '../services/UserService.js';
 
 const router = express.Router();
 
@@ -12,18 +11,22 @@ interface User {
   password: string;
 }
 
-
-async function readUsers(): Promise<User[]> {
-  try {
-    const data = await fsPromises.readFile(usersFile, 'utf8');
-    return JSON.parse(data);
-  } catch {
-    return [];
+function jwtAuth(req: Request, res: Response, next: NextFunction) {
+  const authHeader = req.headers["authorization"];
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res
+      .status(401)
+      .json({ message: "Missing or invalid Authorization header" });
   }
-}
-
-async function writeUsers(users: User[]): Promise<void> {
-  await fsPromises.writeFile(usersFile, JSON.stringify(users, null, 2));
+  const token = authHeader.slice(7);
+  try {
+    const secret = process.env.JWT_SECRET || "CHANGE_ME_TO_SECRET_IN_PROD";
+    const payload = jwt.verify(token, secret);
+    (req as any).user = payload;
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid or expired token" });
+  }
 }
 
 router.post('/register', async (req, res) => {
@@ -52,18 +55,18 @@ router.post('/register', async (req, res) => {
    *       409:
    *         description: User already exists
    */
-  const { username, password } = req.body;
-  if (!username || !password) {
-    return res.status(400).send('Username and password required');
+  try {
+    const { username, password } = req.body;
+    const message = await UserService.register(username, password);
+    res.send(message);
+  } catch (error) {
+    const err = error as Error;
+    if (err.message === 'User already exists') {
+      res.status(409).send(err.message);
+    } else {
+      res.status(400).send(err.message);
+    }
   }
-  const users = await readUsers();
-  if (users.find(u => u.username === username)) {
-    return res.status(409).send('User already exists');
-  }
-  const hashedPassword = await bcrypt.hash(password, 10);
-  users.push({ username, password: hashedPassword });
-  await writeUsers(users);
-  res.send('User registered');
 });
 
 router.post('/login', async (req, res) => {
@@ -92,20 +95,13 @@ router.post('/login', async (req, res) => {
    *       401:
    *         description: Invalid credentials
    */
-  const { username, password } = req.body;
-  if (!username || !password) {
-    return res.status(400).send('Username and password required');
-  }
-  const users = await readUsers();
-  const user = users.find(u => u.username === username);
-  if (!user) {
-    return res.status(401).send('Invalid credentials');
-  }
-  const isValid = await bcrypt.compare(password, user.password);
-  if (isValid) {
-    res.send('Login successful');
-  } else {
-    res.status(401).send('Invalid credentials');
+  try {
+    const { username, password } = req.body;
+    const message = await UserService.login(username, password);
+    res.send(message);
+  } catch (error) {
+    const err = error as Error;
+    res.status(401).send(err.message);
   }
 });
 

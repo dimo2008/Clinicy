@@ -1,23 +1,7 @@
-import { ExpressExample } from "./ExpressExample.js";
-import { runExamples } from "./Examples.js";
-// Call the main examples function
-
-//console.log("Hello World2");
-// runExamples().catch(console.error);
-
-// const myFunc = (num: number): number => {
-//   return num * num;
-// };
-
-// const fullName = (firstName: string, lastName: string): string => {
-//   return `${firstName} ${lastName}`;
-// };
-// export { myFunc, fullName };
-
 import express from "express";
-import FileController from './FileController.js';
-import UserController from './UserController.js';
-import PatientController from './PatientController.js';
+import FileController from './controllers/FileController.js';
+import UserController from './controllers/UserController.js';
+import PatientController from './controllers/PatientController.js';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
@@ -47,7 +31,7 @@ const swaggerOptions = {
       },
     },
   },
-  apis: ['./src/*.ts'],
+  apis: ['./src/**/*.ts'],
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
