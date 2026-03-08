@@ -27,6 +27,31 @@ async function writeUsers(users: User[]): Promise<void> {
 }
 
 router.post('/register', async (req, res) => {
+  /**
+   * @swagger
+   * /users/register:
+   *   post:
+   *     summary: Register a new user
+   *     tags: [Users]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               username:
+   *                 type: string
+   *               password:
+   *                 type: string
+   *     responses:
+   *       200:
+   *         description: User registered
+   *       400:
+   *         description: Bad request
+   *       409:
+   *         description: User already exists
+   */
   const { username, password } = req.body;
   if (!username || !password) {
     return res.status(400).send('Username and password required');
@@ -42,6 +67,31 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
+  /**
+   * @swagger
+   * /users/login:
+   *   post:
+   *     summary: Login a user
+   *     tags: [Users]
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               username:
+   *                 type: string
+   *               password:
+   *                 type: string
+   *     responses:
+   *       200:
+   *         description: Login successful
+   *       400:
+   *         description: Bad request
+   *       401:
+   *         description: Invalid credentials
+   */
   const { username, password } = req.body;
   if (!username || !password) {
     return res.status(400).send('Username and password required');
