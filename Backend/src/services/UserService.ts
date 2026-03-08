@@ -1,7 +1,9 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import { promises as fsPromises } from 'fs';
 
 interface User {
+  id: number;
   username: string;
   password: string;
 }
@@ -31,7 +33,8 @@ export class UserService {
       throw new Error('User already exists');
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    users.push({ username, password: hashedPassword });
+    const newUser: User = { id: users.length + 1, username, password: hashedPassword };
+    users.push(newUser);
     await this.writeUsers(users);
     return 'User registered';
   }
@@ -47,9 +50,16 @@ export class UserService {
     }
     const isValid = await bcrypt.compare(password, user.password);
     if (isValid) {
-      return 'Login successful';
+      return await this.authenticate(user, 'user');
     } else {
       throw new Error('Invalid credentials');
     }
+  }
+
+  static async authenticate(user: User, roleName: string): Promise<string> {
+    const payload = { sub: user.id, username: user.username, role: roleName };
+    const secret = process.env.JWT_SECRET || 'CHANGE_ME_TO_SECRET_IN_PROD';
+    const token = jwt.sign(payload, secret, { expiresIn: '1h' });
+    return token;
   }
 }

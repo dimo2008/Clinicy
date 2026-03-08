@@ -1,15 +1,18 @@
 import express from 'express';
 import { PatientService } from '../services/PatientService.js';
+import { jwtAuth } from '../middleware/jwtAuth.js';
 
 const router = express.Router();
 
-router.get('/', async (req, res) => {
+router.get('/', jwtAuth, async (req, res) => {
   /**
    * @swagger
    * /patients:
    *   get:
    *     summary: Get all patients
    *     tags: [Patients]
+   *     security:
+   *       - bearerAuth: []
    *     responses:
    *       200:
    *         description: List of patients
@@ -19,6 +22,8 @@ router.get('/', async (req, res) => {
    *               type: array
    *               items:
    *                 $ref: '#/components/schemas/Patient'
+   *       401:
+   *         description: Unauthorized
    */
   const patients = await PatientService.getAllPatients();
   res.json(patients);
