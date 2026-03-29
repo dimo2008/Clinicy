@@ -1,65 +1,79 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { promises as fsPromises } from 'fs';
-
-interface User {
-  id: number;
-  username: string;
-  password: string;
-}
-
-const usersFile = 'Files/users.txt';
+import type { IUser } from '../repositories/UserRepository.js';
+import { UserRepository } from '../repositories/UserRepository.js';
 
 export class UserService {
-  static async readUsers(): Promise<User[]> {
-    try {
-      const data = await fsPromises.readFile(usersFile, 'utf8');
-      return JSON.parse(data);
-    } catch {
-      return [];
-    }
-  }
-
-  static async writeUsers(users: User[]): Promise<void> {
-    await fsPromises.writeFile(usersFile, JSON.stringify(users, null, 2));
-  }
+  private static userRepository = new UserRepository();
 
   static async register(username: string, password: string): Promise<string> {
     if (!username || !password) {
       throw new Error('Username and password required');
     }
-    const users = await this.readUsers();
-    if (users.find(u => u.username === username)) {
+
+    // Check if user already exists
+    const existingUser = await this.userRepository.findByUsername(username);
+    if (existingUser) {
       throw new Error('User already exists');
     }
+
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser: User = { id: users.length + 1, username, password: hashedPassword };
-    users.push(newUser);
-    await this.writeUsers(users);
-    return 'User registered';
+
+    // Create new user
+    const newUser = await this.userRepository.create({
+      username,
+      password: hashedPassword,
+    });
+
+    return 'User registered successfully';
   }
 
   static async login(username: string, password: string): Promise<string> {
     if (!username || !password) {
       throw new Error('Username and password required');
     }
-    const users = await this.readUsers();
-    const user = users.find(u => u.username === username);
+
+    // Find user by username
+    const user = await this.userRepository.findByUsername(username);
     if (!user) {
       throw new Error('Invalid credentials');
     }
+
+    // Compare passwords
     const isValid = await bcrypt.compare(password, user.password);
-    if (isValid) {
-      return await this.authenticate(user, 'user');
-    } else {
+    if (!isValid) {
       throw new Error('Invalid credentials');
     }
+
+    // Generate JWT token
+    return await this.authenticate(user, 'user');
   }
 
-  static async authenticate(user: User, roleName: string): Promise<string> {
-    const payload = { sub: user.id, username: user.username, role: roleName };
+  static async authenticate(user: IUser, roleName: string): Promise<string> {
+    const payload = {
+      sub: user.id,
+      username: user.username,
+      role: roleName,
+    };
     const secret = process.env.JWT_SECRET || 'CHANGE_ME_TO_SECRET_IN_PROD';
     const token = jwt.sign(payload, secret, { expiresIn: '1h' });
     return token;
+  }
+
+  static async getUserById(id: number): Promise<IUser | null> {
+    return this.userRepository.findById(id);
+  }
+
+  static async getAllUsers(): Promise<IUser[]> {
+    return this.userRepository.findAll();
+  }
+
+  static async updateUser(id: number, userData: Partial<IUser>): Promise<IUser | null> {
+    return this.userRepository.update(id, userData);
+  }
+
+  static async deleteUser(id: number): Promise<boolean> {
+    return this.userRepository.deleteById(id);
   }
 }

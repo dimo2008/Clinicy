@@ -4,6 +4,7 @@ import UserController from './controllers/UserController.js';
 import PatientController from './controllers/PatientController.js';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import DBService from './database/DBService.js';
 
 const swaggerOptions = {
   definition: {
@@ -39,11 +40,46 @@ const swaggerSpec = swaggerJsdoc(swaggerOptions);
 const app = express();
 app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-const port = 4000;
+const port = process.env.PORT || 4000;
 
-app.listen(port, () => {
-  console.log(`server started at localhost:${port}`);
+// Initialize database and start server
+async function startServer() {
+  try {
+    // Initialize database connection
+    await DBService.initialize();
+
+    // Start the Express server
+    app.listen(port, () => {
+      console.log(`✓ Server started at http://localhost:${port}`);
+    });
+
+    // Routes
+    app.use('/appendfile', FileController);
+    app.use('/users', UserController);
+    app.use('/patients', PatientController);
+
+    // Health check endpoint
+    app.get('/health', (req, res) => {
+      res.json({ status: 'ok', timestamp: new Date().toISOString() });
+    });
+
+  } catch (error) {
+    console.error('✗ Failed to start server:', error);
+    process.exit(1);
+  }
+}
+
+startServer();
+
+// Graceful shutdown
+process.on('SIGTERM', async () => {
+  console.log('\n✓ SIGTERM received, shutting down gracefully...');
+  await DBService.close();
+  process.exit(0);
 });
-app.use('/appendfile', FileController);
-app.use('/users', UserController);
-app.use('/patients', PatientController);
+
+process.on('SIGINT', async () => {
+  console.log('\n✓ SIGINT received, shutting down gracefully...');
+  await DBService.close();
+  process.exit(0);
+});

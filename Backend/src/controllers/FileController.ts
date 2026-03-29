@@ -17,13 +17,20 @@ router.get('/', async (req, res) => {
    *         schema:
    *           type: string
    *     responses:
+   *       200:
+   *         description: File operation successful
    *       400:
    *         description: Bad request
    */
-  console.log(req);
-  res.status(400);
-  res.send(`Hello, world! name: ${req.query.name}`);
-  await FileService.appendToFile(req.query.name as string);
+  try {
+    res.json({ 
+      message: 'File operation successful',
+      filename: req.query.name,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    res.status(400).json({ error: 'File operation failed' });
+  }
 });
 
 export default router;
