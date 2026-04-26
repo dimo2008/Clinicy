@@ -1,0 +1,11 @@
+[
+  {
+    "username": "aaa",
+    "password": "$2b$10$.6fXZZ30FVWxBVM7.6zkoObagPpjqRK1445a5AHldQM5TX.zJv9j2"
+  },
+  {
+    "id": 2,
+    "username": "ahmed",
+    "password": "$2b$10$XNJ6e3AWSa8wMlcaVoCprOVBoKnH0jWS7oSzcMti7ee.V.Bzl0XlS"
+  }
+]

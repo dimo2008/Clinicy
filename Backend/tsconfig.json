@@ -44,5 +44,7 @@
   "ts-node": {
     "esm": true,
     "experimentalEsm": true
-  }
+  },
+    "exclude": ["node_modules", "./dist", "spec"]
+
 }
