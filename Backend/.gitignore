@@ -1,0 +1,98 @@
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist/
+build/
+*.tsbuildinfo
+
+# IDE and Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Test results
+test-results/
+*.xunit
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Uploads and temporary files
+uploads/
+tmp/
+temp/
+*.tmp
+
+# Backups
+*.bak
+*.backup
+*~
+
+# Database backups
+*.sql
+*.backup
+
+# Development files
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDEs specific files
+.vscode/settings.json
+.idea/shelf
+.idea/workspace.xml
+
+# npm
+npm-debug*.log
+*.npm
+
+# Yarn
+yarn-error.log
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# pnpm
+pnpm-debug.log
+
+# Docker
+.dockerignore
+docker-compose.override.yml
+
+# PM2
+ecosystem.config.js
+
+# Windows
+[Dd]esktop.ini
