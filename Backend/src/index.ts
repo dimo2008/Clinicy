@@ -1,4 +1,5 @@
 import express from "express";
+import cors from 'cors';
 import FileController from './controllers/FileController.js';
 import UserController from './controllers/UserController.js';
 import PatientController from './controllers/PatientController.js';
@@ -38,6 +39,7 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 const port = process.env.PORT || 4000;
