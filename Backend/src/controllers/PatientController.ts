@@ -4,7 +4,7 @@ import { jwtAuth } from '../middleware/jwtAuth.js';
 
 const router = express.Router();
 
-router.get('/', jwtAuth, async (req, res) => {
+router.get('/', async (req, res) => {
   /**
    * @swagger
    * /patients:
