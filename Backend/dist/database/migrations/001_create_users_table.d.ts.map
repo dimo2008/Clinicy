@@ -1,0 +1,1 @@
+{"version":3,"file":"001_create_users_table.d.ts","sourceRoot":"","sources":["../../../src/database/migrations/001_create_users_table.ts"],"names":[],"mappings":"AAAA;;;GAGG;AAEH,eAAO,MAAM,EAAE,GAAU,IAAI,GAAG,kBAc/B,CAAC;AAEF,eAAO,MAAM,IAAI,GAAU,IAAI,GAAG,kBAMjC,CAAC;AAEF,eAAO,MAAM,IAAI,2BAA2B,CAAC"}

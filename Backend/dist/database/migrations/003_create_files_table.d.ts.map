@@ -1,0 +1,1 @@
+{"version":3,"file":"003_create_files_table.d.ts","sourceRoot":"","sources":["../../../src/database/migrations/003_create_files_table.ts"],"names":[],"mappings":"AAAA;;;GAGG;AAEH,eAAO,MAAM,EAAE,GAAU,IAAI,GAAG,kBAoB/B,CAAC;AAEF,eAAO,MAAM,IAAI,GAAU,IAAI,GAAG,kBAQjC,CAAC;AAEF,eAAO,MAAM,IAAI,2BAA2B,CAAC"}

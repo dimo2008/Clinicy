@@ -1,0 +1,1 @@
+{"version":3,"file":"002_create_patients_table.d.ts","sourceRoot":"","sources":["../../../src/database/migrations/002_create_patients_table.ts"],"names":[],"mappings":"AAAA;;;GAGG;AAEH,eAAO,MAAM,EAAE,GAAU,IAAI,GAAG,kBAmB/B,CAAC;AAEF,eAAO,MAAM,IAAI,GAAU,IAAI,GAAG,kBAQjC,CAAC;AAEF,eAAO,MAAM,IAAI,8BAA8B,CAAC"}
