@@ -1,6 +1,5 @@
 import express from 'express';
 import { PatientService } from '../services/PatientService.js';
-import { jwtAuth } from '../middleware/jwtAuth.js';
 
 const router = express.Router();
 

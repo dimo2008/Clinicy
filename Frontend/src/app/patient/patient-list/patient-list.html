@@ -1,0 +1,23 @@
+<app-navbar></app-navbar>
+<h2>Patients List</h2>
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let patient of patients">
+      <td>{{ patient.id }}</td>
+      <td>{{ patient.name }}</td>
+      <td>{{ patient.age }}</td>
+      <td>
+        <button class="btn btn-primary" [routerLink]="['/patients/edit', patient.id!]">Edit</button>
+        <button class="btn btn-danger" (click)="deletePatient(patient.id)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
